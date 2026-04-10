@@ -1,7 +1,3 @@
-console.log(process.env.SHOPIFY_STORE_DOMAIN);
-console.log(process.env.SHOPIFY_STOREFRONT_TOKEN);
-console.log(process.env.SHOPIFY_API_VERSION);
-
 export async function shopifyFetch<T>({
   query,
   variables,

@@ -7,7 +7,7 @@ type Props = {
 };
 
 export default async function ProductPage({ params }: Props) {
-  // ✅ MUST await params
+
   const { handle } = await params;
 
   const result = await shopifyFetch<any>({

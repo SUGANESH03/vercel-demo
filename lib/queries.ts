@@ -47,3 +47,58 @@ export const GET_PRODUCT_BY_HANDLE = `
     }
   }
 `;
+
+export const GET_COLLECTIONS = `
+  query getCollections {
+    collections(first: 20) {
+      edges {
+        node {
+          id
+          title
+          handle
+          image {
+            url
+            altText
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_COLLECTION_BY_HANDLE = `
+  query getCollectionByHandle($handle: String!) {
+    collectionByHandle(handle: $handle) {
+      id
+      title
+      description
+      image {
+        url
+        altText
+      }
+      products(first: 20) {
+        edges {
+          node {
+            id
+            title
+            handle
+            images(first: 1) {
+              edges {
+                node {
+                  url
+                  altText
+                }
+              }
+            }
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
