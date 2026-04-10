@@ -1,35 +1,29 @@
-import Link from "next/link";
 import { shopifyFetch } from "@/lib/shopify";
 import { GET_COLLECTIONS } from "@/lib/queries";
+import CollectionCard from "@/app/components/CollectionCard";
 
 export default async function CollectionsPage() {
   const result = await shopifyFetch<any>({
     query: GET_COLLECTIONS,
   });
 
-  const collections = result?.data?.collections?.edges ?? [];
+  const collections =
+    result?.data?.collections?.edges ?? [];
 
   return (
-    <main className="p-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
-      {collections.map(({ node }: any) => (
-        <Link
-          key={node.id}
-          href={`/collections/${node.handle}`}
-          className="border p-4 block"
-        >
-          {node.image && (
-            <img
-              src={node.image.url}
-              alt={node.image.altText || node.title}
-              className="w-full h-auto mb-4"
-            />
-          )}
+    <main className="max-w-7xl mx-auto px-6 py-12">
+      <h1 className="text-2xl font-semibold mb-8">
+        All Collections
+      </h1>
 
-          <h2 className="text-lg font-semibold">
-            {node.title}
-          </h2>
-        </Link>
-      ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {collections.map(({ node }: any) => (
+          <CollectionCard
+            key={node.id}
+            collection={node}
+          />
+        ))}
+      </div>
     </main>
   );
 }
