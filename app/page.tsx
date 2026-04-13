@@ -1,7 +1,7 @@
-import { shopifyFetch } from "@/lib/shopify";
-import { GET_PRODUCTS, GET_COLLECTIONS } from "@/lib/queries";
-import ProductCard from "@/app/components/ProductCard";
-import CollectionCard from "@/app/components/CollectionCard";
+import { shopifyFetch } from "@/lib/shopify/shopify";
+import { GET_PRODUCTS, GET_COLLECTIONS } from "@/lib/shopify/queries";
+import ProductCard from "@/app/components/products/ProductCard";
+import CollectionCard from "@/app/components/collections/CollectionCard";
 import Section from "@/app/components/Section";
 
 /* ---------------------------- Types ---------------------------- */

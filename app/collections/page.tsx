@@ -1,6 +1,6 @@
-import { shopifyFetch } from "@/lib/shopify";
-import { GET_COLLECTIONS } from "@/lib/queries";
-import CollectionCard from "@/app/components/CollectionCard";
+import { shopifyFetch } from "@/lib/shopify/shopify";
+import { GET_COLLECTIONS } from "@/lib/shopify/queries";
+import CollectionCard from "@/app/components/collections/CollectionCard";
 
 export default async function CollectionsPage() {
   const result = await shopifyFetch<any>({

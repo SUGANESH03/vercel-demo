@@ -1,5 +1,5 @@
-import { shopifyFetch } from "@/lib/shopify";
-import { GET_COLLECTION_BY_HANDLE } from "@/lib/queries";
+import { shopifyFetch } from "@/lib/shopify/shopify";
+import { GET_COLLECTION_BY_HANDLE } from "@/lib/shopify/queries";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 

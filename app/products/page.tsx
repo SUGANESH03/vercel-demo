@@ -1,6 +1,6 @@
-import { shopifyFetch } from "@/lib/shopify";
-import { GET_PRODUCTS } from "@/lib/queries";
-import ProductCard from "@/app/components/ProductCard";
+import { shopifyFetch } from "@/lib/shopify/shopify";
+import { GET_PRODUCTS } from "@/lib/shopify/queries";
+import ProductCard from "@/app/components/products/ProductCard";
 
 export default async function ProductsPage() {
   const result = await shopifyFetch<any>({

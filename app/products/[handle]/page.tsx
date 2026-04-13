@@ -1,13 +1,15 @@
-import { shopifyFetch } from "@/lib/shopify";
-import { GET_PRODUCT_BY_HANDLE } from "@/lib/queries";
+import { shopifyFetch } from "@/lib/shopify/shopify";
+import { GET_PRODUCT_BY_HANDLE } from "@/lib/shopify/queries";
 import { notFound } from "next/navigation";
+import AddToCartButton from "@/app/components/cart/AddToCartButton";
 
 type Props = {
-  params: Promise<{ handle: string }>;
+  params: Promise<{
+    handle: string;
+  }>;
 };
 
 export default async function ProductPage({ params }: Props) {
-
   const { handle } = await params;
 
   const result = await shopifyFetch<any>({
@@ -17,28 +19,38 @@ export default async function ProductPage({ params }: Props) {
 
   const product = result?.data?.productByHandle;
 
-  if (!product) {
-    notFound();
+  if (!product) notFound();
+
+  const image = product.images?.edges?.[0]?.node;
+
+  const variantId =
+    product.variants?.edges?.[0]?.node?.id;
+
+  if (!variantId) {
+    throw new Error("Product has no variants");
   }
 
   return (
-    <main className="p-8 max-w-4xl mx-auto">
-      {product.images.edges.length > 0 && (
+    <main className="max-w-4xl mx-auto p-8 space-y-6">
+      {image && (
         <img
-          src={product.images.edges[0].node.url}
-          alt={product.title}
-          className="w-full max-w-md mb-6"
+          src={image.url}
+          alt={image.altText ?? product.title}
+          className="max-w-md"
         />
       )}
 
-      <h1 className="text-3xl font-bold mb-2">{product.title}</h1>
+      <h1 className="text-3xl font-bold">
+        {product.title}
+      </h1>
 
-      <p className="text-xl mb-4">
+      <p className="text-xl">
         {product.priceRange.minVariantPrice.amount}{" "}
         {product.priceRange.minVariantPrice.currencyCode}
       </p>
 
-      <p className="text-gray-700">{product.description}</p>
+      <AddToCartButton variantId={variantId} />
     </main>
   );
 }
+``

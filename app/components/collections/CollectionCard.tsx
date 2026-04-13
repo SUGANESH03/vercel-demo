@@ -7,7 +7,6 @@ interface CollectionCardProps {
 export default function CollectionCard({
   collection,
 }: CollectionCardProps) {
-  // ✅ Absolute safety guard
   if (!collection) {
     console.error("CollectionCard received undefined collection");
     return null;
