@@ -43,6 +43,8 @@ export default async function ProductPage({ params }: Props) {
       <h1 className="text-3xl font-bold">
         {product.title}
       </h1>
+      <p>{product.description}
+      </p>
 
       <p className="text-xl">
         {product.priceRange.minVariantPrice.amount}{" "}
@@ -53,4 +55,3 @@ export default async function ProductPage({ params }: Props) {
     </main>
   );
 }
-``
