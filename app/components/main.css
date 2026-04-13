@@ -45,20 +45,19 @@
   max-width: 600px;
   text-align: center;
 }
-.pdp-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  align-items: start;
+.quantityAndCart{
+    display:flex;
+    gap: 30px;
 }
-.main-container{
-  
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-}
-.info-container{
-  display:flex;
-  flex-direction: column;
-  padding: 16px;
+.quantity-btn{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 600;
+    padding:10px;
+    border: 2px solid #000000;
+    width:100px;
+    justify-content: space-evenly;
+    border-radius: 4px;
 }

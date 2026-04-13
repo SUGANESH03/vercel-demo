@@ -2,6 +2,8 @@ import { shopifyFetch } from "@/lib/shopify/shopify";
 import { GET_PRODUCT_BY_HANDLE } from "@/lib/shopify/queries";
 import { notFound } from "next/navigation";
 import AddToCartButton from "@/app/components/cart/AddToCartButton";
+import styles from "./product-page.module.css";
+import QuantityBtn from "@/app/components/QuantityBtn";
 
 type Props = {
   params: Promise<{
@@ -10,6 +12,7 @@ type Props = {
 };
 
 export default async function ProductPage({ params }: Props) {
+
   const { handle } = await params;
 
   const result = await shopifyFetch<any>({
@@ -18,40 +21,49 @@ export default async function ProductPage({ params }: Props) {
   });
 
   const product = result?.data?.productByHandle;
-
   if (!product) notFound();
 
-  const image = product.images?.edges?.[0]?.node;
-
-  const variantId =
-    product.variants?.edges?.[0]?.node?.id;
+  const images = product.images?.edges ?? [];
+  const variantId = product.variants?.edges?.[0]?.node?.id;
 
   if (!variantId) {
     throw new Error("Product has no variants");
   }
 
+
   return (
-    <main className="max-w-4xl mx-auto p-8 space-y-6">
-      {image && (
-        <img
-          src={image.url}
-          alt={image.altText ?? product.title}
-          className="max-w-md"
-        />
-      )}
+    <main className={styles.page}>
+      <div className={styles.wrapper}>
+        <div className={styles.imageGallery}>
+  {images.map((img: any, index: number) => (
+    <img
+      key={img.node.id ?? index}
+      src={img.node.url}
+      alt={img.node.altText ?? `${product.title} image ${index + 1}`}
+      className={styles.productImage}
+    />
+  ))}
+</div>
 
-      <h1 className="text-3xl font-bold">
-        {product.title}
-      </h1>
-      <p>{product.description}
-      </p>
+        <div className={styles.content}>
+          <h1 className={styles.title}>{product.title}</h1>
 
-      <p className="text-xl">
-        {product.priceRange.minVariantPrice.amount}{" "}
-        {product.priceRange.minVariantPrice.currencyCode}
-      </p>
+          <p className={styles.description}>
+            {product.description}
+          </p>
 
-      <AddToCartButton variantId={variantId} />
+          <p className={styles.price}>
+            {product.priceRange.minVariantPrice.amount}{" "}
+            {product.priceRange.minVariantPrice.currencyCode}
+          </p>
+          <div className={styles.quantityAndCart}>
+          <QuantityBtn />
+          <AddToCartButton variantId={variantId} />
+          </div>
+          
+          </div>
+        
+      </div>
     </main>
   );
 }
