@@ -5,7 +5,7 @@ type CompanyItem = {
   to: string;
 };
 
-export default function Footer(): JSX.Element {
+export default function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground px-8">
       <div className="container-narrow py-16 md:py-24">
