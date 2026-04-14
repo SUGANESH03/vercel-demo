@@ -9,10 +9,14 @@ import {
 
 interface AddToCartButtonProps {
   variantId: string;
+  quantity: number;
+  note: string;
 }
 
 export default function AddToCartButton({
   variantId,
+  quantity,
+  note,
 }: AddToCartButtonProps) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -29,9 +33,11 @@ export default function AddToCartButton({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          cartId,
-          variantId,
-        }),
+  cartId,
+  variantId,
+  quantity,
+  note,
+}),
       });
 
       const data = await res.json();

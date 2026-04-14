@@ -1,11 +1,9 @@
-
-// app/api/cart/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { createCart, addToCart } from "@/lib/shopify/cart";
 
 export async function POST(req: NextRequest) {
   try {
-    const { cartId, variantId } = await req.json();
+    const { cartId, variantId, quantity, note } = await req.json();
 
     if (!variantId) {
       return NextResponse.json(
@@ -16,11 +14,16 @@ export async function POST(req: NextRequest) {
 
     let finalCartId = cartId;
 
+    // ✅ Create cart if not exists
     if (!finalCartId) {
       finalCartId = await createCart();
     }
-    
-await addToCart(finalCartId, variantId);
+
+    // ✅ Default quantity fallback
+    const qty = quantity && quantity > 0 ? quantity : 1;
+
+    // ✅ Add to cart with quantity + note
+    await addToCart(finalCartId, variantId, qty, note);
 
     return NextResponse.json({
       cartId: finalCartId,

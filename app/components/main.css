@@ -45,19 +45,52 @@
   max-width: 600px;
   text-align: center;
 }
-.quantityAndCart{
-    display:flex;
-    gap: 30px;
-}
+
 .quantity-btn{
     display: flex;
     align-items: center;
     gap: 10px;
     font-size: 24px;
     font-weight: 600;
-    padding:10px;
+    padding:6px;
     border: 2px solid #000000;
     width:100px;
     justify-content: space-evenly;
     border-radius: 4px;
+}
+.special-instructions {
+  margin-top: 32px;
+}
+
+.special-instructions h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #111;
+}
+
+.text-area {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  font-family: inherit;
+ 
+}
+
+
+
+
+.text-area:focus {
+  outline: none;
+  border-color: #000;
+
+}
+
+
+.text-area::placeholder {
+  color: #999;
 }

@@ -44,10 +44,20 @@ export const GET_PRODUCT_BY_HANDLE = `
           currencyCode
         }
       }
-        variants(first: 1) {
+        variants(first: 10) {
         edges {
           node {
             id
+            title
+            image{
+              url
+              altText
+            }
+            price {
+                amount
+                currencyCode
+            }
+
           }
         }
       }

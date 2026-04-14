@@ -10,6 +10,10 @@ query GetCart($cartId: ID!) {
         node {
           id
           quantity
+          attributes {
+            key
+            value
+          }
           merchandise {
             ... on ProductVariant {
               product {
@@ -31,9 +35,10 @@ type Props = {
 };
 
 export default async function CartPage({ searchParams }: Props) {
-  // ✅ MUST unwrap
+  // ✅ unwrap params
   const { cartId: rawCartId } = await searchParams;
 
+  // ❌ no cart id
   if (!rawCartId) {
     return (
       <main className="p-8 max-w-4xl mx-auto">
@@ -42,16 +47,33 @@ export default async function CartPage({ searchParams }: Props) {
     );
   }
 
-  // ✅ Decode Shopify cart GID
+  // ✅ decode Shopify cart id
   const cartId = decodeURIComponent(rawCartId);
 
-  const result = await shopifyFetch<any>({
-    query: GET_CART,
-    variables: { cartId },
-  });
+  let result;
 
-  const cart = result.data.cart;
+  try {
+    result = await shopifyFetch<any>({
+      query: GET_CART,
+      variables: { cartId },
+    });
+  } catch (error) {
+    console.error("Fetch cart error:", error);
 
+    return (
+      <main className="p-8 max-w-4xl mx-auto">
+        <h1 className="text-2xl font-bold">Error loading cart</h1>
+      </main>
+    );
+  }
+
+  // 🔍 debug (optional)
+  console.log("SHOPIFY RESPONSE:", JSON.stringify(result, null, 2));
+
+  // ✅ SAFE ACCESS (prevents crash)
+  const cart = result?.data?.cart;
+
+  // ❌ invalid / expired cart
   if (!cart) {
     return (
       <main className="p-8 max-w-4xl mx-auto">
@@ -72,7 +94,30 @@ export default async function CartPage({ searchParams }: Props) {
             key={node.id}
             className="flex justify-between border-b pb-2"
           >
-            <span>{node.merchandise.product.title}</span>
+            {/* LEFT SIDE */}
+            <div>
+              <span>{node.merchandise.product.title}</span>
+
+              {/* ✅ SHOW SPECIAL INSTRUCTIONS */}
+              {node.attributes?.length > 0 && (
+                <div>
+                  {node.attributes.map((attr: any) => (
+                    <p
+                      key={attr.key}
+                      style={{
+                        fontSize: "12px",
+                        color: "gray",
+                        marginTop: "4px",
+                      }}
+                    >
+                      {attr.key}: {attr.value}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* RIGHT SIDE */}
             <span>Qty: {node.quantity}</span>
           </li>
         ))}
